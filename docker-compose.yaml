@@ -28,20 +28,23 @@ services:
         container_name: webapp_django
         restart: always
         volumes:
-            - ./djangoapp:/application
+            - ./application:/application
         ports:
             - 5000:5000
         command: python manage.py runserver 0.0.0.0:5000
-    sql-server-db:
-        container_name: sql-server-db
-        image: mcr.microsoft.com/mssql/server:2019-latest
+    codeigniter:
+        build:
+            context: ./
+            dockerfile: DockerfileCodeigniter
+        container_name: codeigniter
         restart: always
         ports:
-            - 1433:1433
-        environment:
-            - SA_PASSWORD=very_long_password
-            - ACCEPT_EULA=Y
+            - 5050:80
+        volumes:
+            - ./html2:/var/www/html
 volumes:
     html: {}
+    html2: {}
     db: {}
+    application: {}
 
